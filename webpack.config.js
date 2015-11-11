@@ -28,6 +28,9 @@ module.exports = {
             }
         }]
     },
+    node: {
+        fs: "empty"
+    },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin()

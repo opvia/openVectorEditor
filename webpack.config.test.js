@@ -19,6 +19,9 @@ module.exports = {
             }
         }]
     },
+    node: {
+        fs: "empty"
+    },
     plugins: [
         //tnr: this plugin sets the NODE_ENV variable to "testing". This currently does nothing different than
         //"development" except for turning off HMR (hot module replacement) in the .babelrc

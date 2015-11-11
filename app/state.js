@@ -1,3 +1,4 @@
+var Nt = require('ntseq');
 var deriveData = require('baobab').monkey
 
 var prepareRowData = require('./prepareRowData');
@@ -7,6 +8,7 @@ var findOrfsInPlasmid = require('ve-sequence-utils/findOrfsInPlasmid');
 var assign = require('lodash/object/assign');
 var getSequenceWithinRange = require('ve-range-utils/getSequenceWithinRange');
 var getAminoAcidDataForEachBaseOfDna = require('ve-sequence-utils/getAminoAcidDataForEachBaseOfDna');
+var getAminoAcidDataForRangeOfSequence = require('ve-sequence-utils/getAminoAcidDataForRangeOfSequence');
 var getCutsitesFromSequence = require('ve-sequence-utils/getCutsitesFromSequence');
 //tnr: this json file is being loaded with a special json webpack loader. it will break if run from another environment (eg. node, browserify)
 var enzymeList = require('ve-sequence-utils/enzymeList.json'); 
@@ -81,6 +83,26 @@ module.exports = {
        parts: [],
     }, 
     clipboardData: null,
+
+    ntSeq: deriveData([
+        ['sequenceData',
+            'sequence'
+        ],
+        function(sequenceString) {
+            var seq = (new Nt.Seq()).read(sequenceString);
+            return seq;
+        }
+    ]),
+
+    reverseComplement: deriveData([
+        ['ntSeq'],
+        function(ntSeq) {
+            debugger;
+            var a = ntSeq.complement().sequence();
+            return a;
+        }
+    ]),
+
     bpsPerRow: deriveData([
         ['rowViewDimensions',
             'width'
@@ -127,6 +149,7 @@ module.exports = {
                 var translationWithAminoAcids = assign({}, translation);
                 var subseq = getSequenceWithinRange(translation, sequence);
                 translationWithAminoAcids.aminoAcids = getAminoAcidDataForEachBaseOfDna(subseq, translation.forward);
+                // translationWithAminoAcids.aminoAcids = getAminoAcidDataForRangeOfSequence(subseq, translation.forward);
                 return translationWithAminoAcids;
             });
         }

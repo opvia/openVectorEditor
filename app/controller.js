@@ -9,7 +9,7 @@ export default function (options) {
 	var newDefaultState = merge(defaultState, options.state);
 
 	//tnr: we can pass extra baobab-specific options here as well if we want
-	const model = Model(newDefaultState); 
+	const model = Model(newDefaultState, {immutable: false}); 
 	
 	//tnr: services are things like an ajax library, or some default values that we want every action to have access to
 	const services = {};

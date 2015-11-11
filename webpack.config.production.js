@@ -22,6 +22,9 @@ module.exports = {
             }
         }]
     },
+    node: {
+        fs: "empty"
+    },
     plugins: [
         //tnr: this plugin sets the NODE_ENV variable to production which deactivates both react proptypes and api-check!
         new webpack.DefinePlugin({

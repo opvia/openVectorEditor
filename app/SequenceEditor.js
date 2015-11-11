@@ -22,11 +22,12 @@ import StatusBar from './StatusBar';
     selectedSequenceString: ['selectedSequenceString'],
     caretPosition: ['caretPosition'],
     sequenceData: ['sequenceData'],
+    reverseComplement: ['reverseComplement'],
     selectionLayer: ['selectionLayer'],
     clipboardData: ['clipboardData'],
     displayCircular: ['displayCircular'],
     displayLinear: ['displayLinear'],
-    displayRow: ['displayRow'] 
+    displayRow: ['displayRow']
 })
 @propTypes({
     sequenceLength: PropTypes.number.isRequired,
@@ -242,6 +243,7 @@ class SequenceEditor extends React.Component {
                     onPaste={this.handlePaste.bind(this)}/>
 
                 <ToolBar />
+                {this.props.reverseComplement}
 
                 <div style={{display: 'flex', overflow: 'auto'}}>
                     {displayCircular && <CircularView 
