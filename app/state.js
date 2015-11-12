@@ -12,6 +12,7 @@ var getAminoAcidDataForRangeOfSequence = require('ve-sequence-utils/getAminoAcid
 var getCutsitesFromSequence = require('ve-sequence-utils/getCutsitesFromSequence');
 //tnr: this json file is being loaded with a special json webpack loader. it will break if run from another environment (eg. node, browserify)
 var enzymeList = require('ve-sequence-utils/enzymeList.json'); 
+var ntSeq;
 
 module.exports = {
     rowToJumpTo: null,
@@ -89,15 +90,17 @@ module.exports = {
             'sequence'
         ],
         function(sequenceString) {
-            var seq = (new Nt.Seq()).read(sequenceString);
-            return seq;
+            ntSeq = (new Nt.Seq()).read(sequenceString);
+            //return a blank object here, we're just using the baobab monkey 
+            //system to update a locally stored ntSeq object
+            return {}; 
         }
     ]),
 
-    reverseComplement: deriveData([
+    reverseComplement: deriveData([ //tnr: example of ntSeq usage
         ['ntSeq'],
-        function(ntSeq) {
-            debugger;
+        function() {
+            //use the local ntSeq variable
             var a = ntSeq.complement().sequence();
             return a;
         }
