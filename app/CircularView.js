@@ -25,6 +25,7 @@ var Draggable = require('react-draggable');
     showParts: ['showParts'],
     showOrfs: ['showOrfs'],
     showAxis: ['showAxis'],
+    rowData2: ['rowData2'],
     showSequence: ['showSequence'],
     showCutsites: ['showCutsites'],
     showReverseSequence: ['showReverseSequence'],

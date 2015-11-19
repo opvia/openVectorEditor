@@ -1,6 +1,7 @@
 var deriveData = require('baobab').monkey
 
 var prepareRowData = require('ve-sequence-utils/prepareRowData');
+var prepareRowData2 = require('ve-sequence-utils/prepareRowData2');
 var prepareCircularViewData = require('ve-sequence-utils/prepareCircularViewData');
 var findOrfsInPlasmid = require('ve-sequence-utils/findOrfsInPlasmid');
 
@@ -198,6 +199,13 @@ module.exports = {
         ['bpsPerRow'],
         function(sequenceData, bpsPerRow) {
             return prepareRowData(sequenceData, bpsPerRow);
+        }
+    ]),
+    rowData2: deriveData([
+        ['combinedSequenceData'],
+        ['sequenceLength'],
+        function(sequenceData, sequenceLength) {
+            return prepareRowData2(sequenceData, sequenceLength);
         }
     ]),
     mapViewRowData: deriveData([

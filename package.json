@@ -34,6 +34,7 @@
     "deep-equal": "^1.0.1",
     "get-substring-by-range": "^1.0.0",
     "interpolate": "^0.1.0",
+    "interval-query": "^0.3.0",
     "is-integer": "^1.0.4",
     "lodash": "^3.10.0",
     "material-ui": "^0.13.1",
