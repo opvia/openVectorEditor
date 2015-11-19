@@ -201,13 +201,13 @@ module.exports = {
             return prepareRowData(sequenceData, bpsPerRow);
         }
     ]),
-    rowData2: deriveData([
-        ['combinedSequenceData'],
-        ['sequenceLength'],
-        function(sequenceData, sequenceLength) {
-            return prepareRowData2(sequenceData, sequenceLength);
-        }
-    ]),
+    // rowData2: deriveData([
+    //     ['combinedSequenceData'],
+    //     ['sequenceLength'],
+    //     function(sequenceData, sequenceLength) {
+    //         return prepareRowData2(sequenceData, sequenceLength);
+    //     }
+    // ]),
     mapViewRowData: deriveData([
         ['combinedSequenceData'],
         ['sequenceLength'],

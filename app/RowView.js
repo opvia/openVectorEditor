@@ -112,7 +112,6 @@ class RowView extends React.Component {
             bpsPerRow,
             signals
         } = this.props;
-        debugger;
         function renderRows(rowNumber) {
             if (rowData[rowNumber]) {
                 return (<RowItem
