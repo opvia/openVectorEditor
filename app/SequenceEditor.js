@@ -13,13 +13,6 @@ import {Decorator as Cerebral} from 'cerebral-react';
 
 import ToolBar from './ToolBar';
 import StatusBar from './StatusBar';
-var computeIntervals = require('ve-sequence-utils/computeIntervals');
-function featureIntervalTree (get) {
-    debugger;
-  var features = get(['sequenceData','features']);
-  var sequenceLength = get(['sequenceLength']);
-  return computeIntervals(features, sequenceLength)
-}
 
 @Cerebral({
     sequenceLength: ['sequenceLength'],
@@ -29,7 +22,6 @@ function featureIntervalTree (get) {
     selectedSequenceString: ['selectedSequenceString'],
     caretPosition: ['caretPosition'],
     sequenceData: ['sequenceData'],
-    featureIntervalTree: featureIntervalTree,
     selectionLayer: ['selectionLayer'],
     clipboardData: ['clipboardData'],
     showCircular: ['showCircular'],

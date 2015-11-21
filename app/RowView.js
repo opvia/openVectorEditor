@@ -1,3 +1,4 @@
+var annotationIntervalTrees = require('./cerebral/computed/annotationIntervalTrees');
 import React, {PropTypes} from 'react';
 import {Decorator as Cerebral} from 'cerebral-react';
 import { propTypes } from './react-props-decorators.js'; //tnrtodo: update this once the actual npm module updates its dependencies
@@ -23,7 +24,10 @@ var InfiniteScroller = require('react-variable-height-infinite-scroller');
     showReverseSequence: ['showReverseSequence'],
     caretPosition: ['caretPosition'],
     sequenceLength: ['sequenceLength'],
-    bpsPerRow: ['bpsPerRow']
+    bpsPerRow: ['bpsPerRow'],
+    sequenceData: ['sequenceData'],
+    //computed data:
+    featureIntervalTree: annotationIntervalTrees('features'),
 })
 @propTypes({
     rowViewDimensions: PropTypes.object.isRequired,
@@ -110,10 +114,13 @@ class RowView extends React.Component {
             caretPosition,
             sequenceLength,
             bpsPerRow,
+            featureIntervalTree,
+            sequenceData,
             signals
         } = this.props;
         function renderRows(rowNumber) {
             if (rowData[rowNumber]) {
+                sequenceData.features
                 return (<RowItem
                     charWidth={charWidth}
                     selectionLayer={selectionLayer}
@@ -131,7 +138,9 @@ class RowView extends React.Component {
                     caretPosition={caretPosition}
                     sequenceLength={sequenceLength}
                     bpsPerRow={bpsPerRow}
+                    sequenceData={sequenceData}
                     signals={signals}
+                    featureIntervalTree={featureIntervalTree}
                     key={rowNumber}
                     row={rowData[rowNumber]} 
                     />);

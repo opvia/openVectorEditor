@@ -31,6 +31,7 @@ class RowItem extends React.Component {
             bpsPerRow,
             row,
             signals,
+            featureIntervalTree,
         } = this.props;
         if (!row) {
             return null;
@@ -53,6 +54,7 @@ class RowItem extends React.Component {
                   <FeatureContainer
                     row={row}
                     signals={signals}
+                    featureIntervalTree={featureIntervalTree}
                     annotationRanges={row.features}
                     charWidth={charWidth}
                     annotationHeight={annotationHeight}
