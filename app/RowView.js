@@ -1,10 +1,10 @@
 var annotationIntervalTrees = require('./cerebral/computed/annotationIntervalTrees');
 import React, {PropTypes} from 'react';
-import {Decorator as Cerebral} from 'cerebral-react';
 import { propTypes } from './react-props-decorators.js'; //tnrtodo: update this once the actual npm module updates its dependencies
 var Draggable = require('react-draggable');
 var RowItem = require('./RowItem.js');
 var InfiniteScroller = require('react-variable-height-infinite-scroller');
+import {Decorator as Cerebral} from 'cerebral-react';
 
 @Cerebral({
     rowViewDimensions: ['rowViewDimensions'],
@@ -27,7 +27,10 @@ var InfiniteScroller = require('react-variable-height-infinite-scroller');
     bpsPerRow: ['bpsPerRow'],
     sequenceData: ['sequenceData'],
     //computed data:
-    featureIntervalTree: annotationIntervalTrees('features'),
+    // featureIntervalTree: annotationIntervalTrees('features'),
+    // cutsiteIntervalTree: annotationIntervalTrees('cutsites'),
+    // translationIntervalTree: annotationIntervalTrees('translations'),
+    // partIntervalTree: annotationIntervalTrees('parts'),
 })
 @propTypes({
     rowViewDimensions: PropTypes.object.isRequired,
@@ -94,55 +97,33 @@ class RowView extends React.Component {
     }
 
     render() {
-        var {
-            rowViewDimensions, 
-            rowData, 
-            rowToJumpTo, 
-            charWidth,
-            selectionLayer,
-            cutsiteLabelSelectionLayer,
-            annotationHeight,
-            tickSpacing,
-            spaceBetweenAnnotations,
-            showFeatures,
-            showTranslations,
-            showParts,
-            showOrfs,
-            showAxis,
-            showCutsites,
-            showReverseSequence,
-            caretPosition,
-            sequenceLength,
-            bpsPerRow,
-            featureIntervalTree,
-            sequenceData,
-            signals
-        } = this.props;
+        var self = this;
         function renderRows(rowNumber) {
-            if (rowData[rowNumber]) {
-                sequenceData.features
+            if (self.props.rowData[rowNumber]) {
+                self.props.sequenceData.features
                 return (<RowItem
-                    charWidth={charWidth}
-                    selectionLayer={selectionLayer}
-                    cutsiteLabelSelectionLayer={cutsiteLabelSelectionLayer}
-                    annotationHeight={annotationHeight}
-                    tickSpacing={tickSpacing}
-                    spaceBetweenAnnotations={spaceBetweenAnnotations}
-                    showFeatures={showFeatures}
-                    showTranslations={showTranslations}
-                    showParts={showParts}
-                    showOrfs={showOrfs}
-                    showAxis={showAxis}
-                    showCutsites={showCutsites}
-                    showReverseSequence={showReverseSequence}
-                    caretPosition={caretPosition}
-                    sequenceLength={sequenceLength}
-                    bpsPerRow={bpsPerRow}
-                    sequenceData={sequenceData}
-                    signals={signals}
-                    featureIntervalTree={featureIntervalTree}
+                    charWidth={self.props.charWidth}
+                    selectionLayer={self.props.selectionLayer}
+                    cutsiteLabelSelectionLayer={self.props.cutsiteLabelSelectionLayer}
+                    annotationHeight={self.props.annotationHeight}
+                    tickSpacing={self.props.tickSpacing}
+                    spaceBetweenAnnotations={self.props.spaceBetweenAnnotations}
+                    showFeatures={self.props.showFeatures}
+                    showTranslations={self.props.showTranslations}
+                    showParts={self.props.showParts}
+                    showOrfs={self.props.showOrfs}
+                    showAxis={self.props.showAxis}
+                    showCutsites={self.props.showCutsites}
+                    showReverseSequence={self.props.showReverseSequence}
+                    caretPosition={self.props.caretPosition}
+                    sequenceLength={self.props.sequenceLength}
+                    bpsPerRow={self.props.bpsPerRow}
+                    sequenceData={self.props.sequenceData}
+                    signals={self.props.signals}
+                    // featureIntervalTree={self.props.featureIntervalTree}
+                    // partIntervalTree={self.props.partIntervalTree}
                     key={rowNumber}
-                    row={rowData[rowNumber]} 
+                    row={self.props.rowData[rowNumber]} 
                     />);
             } else {
                 return null
@@ -150,8 +131,8 @@ class RowView extends React.Component {
         }
 
         var rowViewStyle = {
-            height: rowViewDimensions.height,
-            width: rowViewDimensions.width,
+            height: self.props.rowViewDimensions.height,
+            width: self.props.rowViewDimensions.width,
             //   overflowY: "scroll",
             // float: "left",
             // paddingRight: "20px"
@@ -162,28 +143,28 @@ class RowView extends React.Component {
             <Draggable
             bounds={{top: 0, left: 0, right: 0, bottom: 0}}
             onDrag={(event) => {
-                this.getNearestCursorPositionToMouseEvent(event, signals.editorDragged)}   
+                this.getNearestCursorPositionToMouseEvent(event, self.props.signals.editorDragged)}   
             }
             onStart={(event) => {
-                this.getNearestCursorPositionToMouseEvent(event, signals.editorDragStarted)}   
+                this.getNearestCursorPositionToMouseEvent(event, self.props.signals.editorDragStarted)}   
             }
-            onStop={signals.editorDragStopped}
+            onStop={self.props.signals.editorDragStopped}
             >
               <div
                 ref="rowView"
                 className="rowView"
                 style={rowViewStyle}
                 onClick={(event) => {
-                    this.getNearestCursorPositionToMouseEvent(event, signals.editorClicked)}   
+                    this.getNearestCursorPositionToMouseEvent(event, self.props.signals.editorClicked)}   
                 }
                 >
                 <InfiniteScroller
                     ref={'InfiniteScroller'}
                     averageElementHeight={100}
-                    containerHeight={rowViewDimensions.height}
+                    containerHeight={self.props.rowViewDimensions.height}
                     renderRow={renderRows}
-                    totalNumberOfRows={rowData.length}
-                    rowToJumpTo={rowToJumpTo}
+                    totalNumberOfRows={self.props.rowData.length}
+                    rowToJumpTo={self.props.rowToJumpTo}
                     /> 
               </div>
             </Draggable>

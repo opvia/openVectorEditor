@@ -50,21 +50,13 @@ class RowItem extends React.Component {
                 onMouseUp={this.onMouseUp}
                 onMouseDown={this.onMouseDown}
                 >
-                {(showFeatures && row.features.length > 0) &&
+                {showFeatures &&
                   <FeatureContainer
                     row={row}
-                    signals={signals}
-                    featureIntervalTree={featureIntervalTree}
-                    annotationRanges={row.features}
-                    charWidth={charWidth}
-                    annotationHeight={annotationHeight}
-                    bpsPerRow={bpsPerRow}
-                    sequenceLength={sequenceLength}
-                    spaceBetweenAnnotations={spaceBetweenAnnotations}
                     />
                 }
             
-                {(showOrfs && row.orfs.length > 0) &&
+                {showOrfs &&
                   <OrfContainer
                     row={row}
                     signals={signals}
@@ -75,7 +67,7 @@ class RowItem extends React.Component {
                     sequenceLength={sequenceLength}
                     spaceBetweenAnnotations={spaceBetweenAnnotations}/>
                 }
-                {(showTranslations && row.translations.length > 0) &&
+                {showTranslations &&
                   <TranslationContainer
                     row={row}
                     signals={signals}
@@ -87,7 +79,7 @@ class RowItem extends React.Component {
                     spaceBetweenAnnotations={spaceBetweenAnnotations}/>
                 }
 
-                {(showCutsites && row.cutsites.length > 0) &&
+                {showCutsites &&
                   <CutsiteLabelContainer
                     signals={signals}
                     annotationRanges={row.cutsites}
@@ -99,7 +91,7 @@ class RowItem extends React.Component {
                 <SequenceContainer 
                     sequence={row.sequence} 
                     charWidth={charWidth}>
-                    {(showCutsites && row.cutsites.length > 0) && <CutsiteSnipsContainer
+                    {showCutsites && <CutsiteSnipsContainer
                         row={row}
                         signals={signals}
                         sequenceLength={sequenceLength}
@@ -112,7 +104,7 @@ class RowItem extends React.Component {
 
                 {showReverseSequence &&
                     <SequenceContainer sequence={ getComplementSequenceString(row.sequence)} charWidth={charWidth}>
-                        {(showCutsites && row.cutsites.length > 0) && <CutsiteSnipsContainer
+                        {showCutsites && <CutsiteSnipsContainer
                                                 row={row}
                                                 signals={signals}
                                                 sequenceLength={sequenceLength}

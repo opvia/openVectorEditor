@@ -1,7 +1,7 @@
-// var sequenceData1 = require('.exampleData/sequenceData');
-// var sequenceData = require('.exampleData/sequenceDataWithOrfsAndTranslations');
-// var sequenceData = require('.exampleData/sequenceDataWithOrfsAndTranslations2');
-var sequenceData = require('../exampleData/sequenceDataWithOrfsAndTranslations3');
+// var sequenceData1 = require('../exampleData/sequenceData');
+// var sequenceData = require('../exampleData/sequenceDataWithOrfsAndTranslations');
+var sequenceData = require('../exampleData/sequenceDataWithOrfsAndTranslations2');
+// var sequenceData = require('../exampleData/sequenceDataWithOrfsAndTranslations3');
 var ReactDOM = require('react-dom')
 var App = require('../app/App.js')
 // import request from 'superagent'

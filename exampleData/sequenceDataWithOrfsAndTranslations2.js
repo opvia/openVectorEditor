@@ -2,7 +2,7 @@
 // for (let i = 0; i < 10; i++) {
 //     seqString += seqString
 // };
-let seqLen = 10000;
+let seqLen = 1000000;
 let seqString = generateSequence(seqLen);
 var objectid = require("bson-objectid");
 

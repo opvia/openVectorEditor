@@ -1,43 +1,79 @@
+var checkIfNonCircularRangesOverlap = require('ve-range-utils/checkIfNonCircularRangesOverlap');
+var getOverlapOfNonCircularRanges = require('ve-range-utils/getOverlapOfNonCircularRanges');
+import {Decorator as Cerebral} from 'cerebral-react';
+var annotationIntervalTrees = require('./cerebral/computed/annotationIntervalTrees');
 var StyleFeature = require('./StyleFeature');
 import React, { PropTypes } from 'react';
 let getXStartAndWidthOfRowAnnotation = require('./getXStartAndWidthOfRowAnnotation');
 let getAnnotationRangeType = require('ve-range-utils/getAnnotationRangeType');
 let LinearFeature = require('./LinearFeature');
-let PureRenderMixin = require('react-addons-pure-render-mixin');
 
 let AnnotationContainerHolder = require('./AnnotationContainerHolder');
 let AnnotationPositioner = require('./AnnotationPositioner');
+var getFeatIntervalTree = annotationIntervalTrees('features');
 
-let FeatureContainer = React.createClass({
-    mixins: [PureRenderMixin],
-    propTypes: {
-        annotationRanges: PropTypes.arrayOf(PropTypes.shape({
-            start: PropTypes.number.isRequired,
-            end: PropTypes.number.isRequired,
-            yOffset: PropTypes.number.isRequired,
-            annotation: PropTypes.shape({
-                start: PropTypes.number.isRequired,
-                end: PropTypes.number.isRequired,
-                forward: PropTypes.bool.isRequired,
-                id: PropTypes.string.isRequired
-            })
-        })),
-        charWidth: PropTypes.number.isRequired,
-        bpsPerRow: PropTypes.number.isRequired,
-        annotationHeight: PropTypes.number.isRequired,
-        spaceBetweenAnnotations: PropTypes.number.isRequired,
-        sequenceLength: PropTypes.number.isRequired,
-        signals: PropTypes.object.isRequired
-    },
-    render: function() {
+@Cerebral({
+    rowViewDimensions: ['rowViewDimensions'],
+    charWidth: ['charWidth'],
+    annotationHeight: ['annotationHeight'],
+    spaceBetweenAnnotations: ['spaceBetweenAnnotations'],
+    showFeatures: ['showFeatures'],
+    showTranslations: ['showTranslations'],
+    sequenceLength: ['sequenceLength'],
+    bpsPerRow: ['bpsPerRow'],
+    //computed data:
+    annotationIntervalTree: getFeatIntervalTree,
+})
+class FeatureContainer extends React.Component {
+    // propTypes: {
+    //     annotationRanges: PropTypes.arrayOf(PropTypes.shape({
+    //         start: PropTypes.number.isRequired,
+    //         end: PropTypes.number.isRequired,
+    //         yOffset: PropTypes.number.isRequired,
+    //         annotation: PropTypes.shape({
+    //             start: PropTypes.number.isRequired,
+    //             end: PropTypes.number.isRequired,
+    //             forward: PropTypes.bool.isRequired,
+    //             id: PropTypes.string.isRequired
+    //         })
+    //     })),
+    //     charWidth: PropTypes.number.isRequired,
+    //     bpsPerRow: PropTypes.number.isRequired,
+    //     annotationHeight: PropTypes.number.isRequired,
+    //     spaceBetweenAnnotations: PropTypes.number.isRequired,
+    //     sequenceLength: PropTypes.number.isRequired,
+    //     signals: PropTypes.object.isRequired
+    // },
+    render() {
         var {
-            annotationRanges,
             bpsPerRow,
             charWidth,
             annotationHeight,
             spaceBetweenAnnotations, 
-            signals
+            signals,
+            annotationIntervalTree,
+            row
         } = this.props;
+
+        var yOffsets = [[]];
+        var annotationRanges = annotationIntervalTree.search(row.start, row.end).map(function (interval) {
+            var annotationRange = getOverlapOfNonCircularRanges(row, interval);
+            var openYOffsetFound = yOffsets.some(function (rangesAlreadyAddedToYOffset, index) {
+                var yOffsetBlocked = rangesAlreadyAddedToYOffset.some(function (alreadyAddedRange) {
+                    return (checkIfNonCircularRangesOverlap(alreadyAddedRange, annotationRange));
+                })
+                if (!yOffsetBlocked) {
+                    annotationRange.yOffset = index
+                    rangesAlreadyAddedToYOffset.push(annotationRange)
+                    return true
+                }
+            })
+            if (!openYOffsetFound) {
+                annotationRange.yOffset = yOffsets.length;
+            }
+            annotationRange.annotation = interval.object;
+            return annotationRange;
+        })
 
         if (annotationRanges.length === 0) {
             return null;
@@ -85,5 +121,5 @@ let FeatureContainer = React.createClass({
         );
 
     }
-});
+}
 module.exports = FeatureContainer;

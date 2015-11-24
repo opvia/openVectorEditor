@@ -28,17 +28,17 @@ module.exports = {
     readOnly: false,
     rowToJumpTo: null,
     showAxis: true,
-    showCircular: true,
-    showCutsites: true,
+    showCircular: false,
+    showCutsites: false,
     showFeatures: true,
     showLinear: true,
-    showOrfs: true,
-    showParts: true,
+    showOrfs: false,
+    showParts: false,
     showReverseSequence: true,
     showRow: true,
     showSequence: true,
     showSidebar: true,
-    showTranslations: true,
+    showTranslations: false,
     spaceBetweenAnnotations: 3,
     tickSpacing: 10,
     topSpacerHeight: 0,
@@ -130,18 +130,18 @@ module.exports = {
             return cutsitesArray;
         }
     ]),
-    translationsWithAminoAcids: deriveData([
-        ['sequenceData', 'translations'],
-        ['sequenceData', 'sequence'],
-        function getTranslationsWithAminoAcids(translations, sequence) {
-            return translations.map(function(translation) {
-                var translationWithAminoAcids = assign({}, translation);
-                var subseq = getSequenceWithinRange(translation, sequence);
-                translationWithAminoAcids.aminoAcids = getAminoAcidDataForEachBaseOfDna(subseq, translation.forward);
-                return translationWithAminoAcids;
-            });
-        }
-    ]),
+    // translationsWithAminoAcids: deriveData([
+    //     ['sequenceData', 'translations'],
+    //     ['sequenceData', 'sequence'],
+    //     function getTranslationsWithAminoAcids(translations, sequence) {
+    //         return translations.map(function(translation) {
+    //             var translationWithAminoAcids = assign({}, translation);
+    //             var subseq = getSequenceWithinRange(translation, sequence);
+    //             translationWithAminoAcids.aminoAcids = getAminoAcidDataForEachBaseOfDna(subseq, translation.forward);
+    //             return translationWithAminoAcids;
+    //         });
+    //     }
+    // ]),
     sequenceLength: deriveData([
         ['sequenceData'],
         function(sequenceData) {

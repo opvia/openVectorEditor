@@ -1,3 +1,4 @@
+var getYOffsetsForPotentiallyCircularRanges = require('ve-range-utils/getYOffsetsForPotentiallyCircularRanges');
 var Sector = require('paths-js/sector');
 var getRangeAngles = require('ve-range-utils/getRangeAngles');
 let Cutsite = require('./Cutsite');
@@ -81,7 +82,8 @@ class CircularView extends React.Component {
         var annotationsSvgs = [];
 
         if (showFeatures) {
-            var maxYOffset = 0;
+            // var maxYOffset = 0;
+            var {maxYOffset, yOffsets} = getYOffsetsForPotentiallyCircularRanges(circularViewData.features);
             circularViewData.features.forEach(function(annotation, index) {
                 var {startAngle, endAngle, totalAngle} = getRangeAngles(annotation, sequenceLength);
                 if (annotation.yOffset > maxYOffset) {
