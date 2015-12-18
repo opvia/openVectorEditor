@@ -89,7 +89,7 @@
     "linklocal": "^2.5.2",
     "mocha": "^2.2.5",
     "mocha-loader": "^0.7.1",
-    "npm-check-updates": "^2.3.0",
+    "npm-check-updates": "^2.5.5",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.0",
     "redbox-react": "^1.1.1",
