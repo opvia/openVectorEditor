@@ -1,7 +1,7 @@
 var deriveData = require('baobab').monkey
 
-var prepareRowData = require('./prepareRowData');
-var prepareCircularViewData = require('./prepareCircularViewData');
+var prepareRowData = require('ve-sequence-utils/prepareRowData');
+var prepareCircularViewData = require('ve-sequence-utils/prepareCircularViewData');
 var findOrfsInPlasmid = require('ve-sequence-utils/findOrfsInPlasmid');
 
 var assign = require('lodash/object/assign');
@@ -52,6 +52,11 @@ module.exports = {
         selected: false,
         cursorAtEnd: true
     },
+    editorDrag: {
+        inProgress: false,
+        initiatedByGrabbingCaret: false,
+        bpOfFixedCaretPosition: 0,
+    },
     mapViewDimensions: {
         height: 500,
         width: 500
@@ -71,6 +76,7 @@ module.exports = {
        features: [],
        translations: [],
        parts: [],
+       circular: false
     }, 
     userEnzymeList: [
         'rsplkii',
