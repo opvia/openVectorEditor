@@ -158,24 +158,6 @@ class SequenceEditor extends React.Component {
                     <div className={styles.sideBarSlot} style={(showSidebar) ? {} : {display: 'none'}}>
                     </div>
 
-<<<<<<< HEAD
-                <div style={{display: 'flex', overflow: 'auto'}}>
-                    {showSidebar === 'restrictionEnzymeManager' && <RestrictionEnzymeManager/>}
-                    {showCircular && <CircularView 
-                                          handleEditorDrag={this.handleEditorDrag.bind(this)}
-                                          handleEditorDragStart={this.handleEditorDragStart.bind(this)}
-                                          handleEditorDragStop={this.handleEditorDragStop.bind(this)}
-                                          handleEditorClick={this.handleEditorClick.bind(this)}
-                                           />}
-                    
-                    {showRow &&  <RowView 
-                                          handleEditorDrag={this.handleEditorDrag.bind(this)}
-                                          handleEditorDragStart={this.handleEditorDragStart.bind(this)}
-                                          handleEditorDragStop={this.handleEditorDragStop.bind(this)}
-                                          handleEditorClick={this.handleEditorClick.bind(this)}
-                                           />}
-                    
-=======
                     <div className={styles.circularViewSlot} style={(showCircular) ? {} : {display: 'none'}}>
                         <CircularView />
                     </div>
@@ -183,7 +165,6 @@ class SequenceEditor extends React.Component {
                     <div className={styles.rowViewSlot} style={(showRow) ? {} : {display: 'none'}}>
                         <RowView />
                     </div>
->>>>>>> master
                 </div>
 
                 <div className={styles.foot}>
