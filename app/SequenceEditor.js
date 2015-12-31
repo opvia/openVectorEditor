@@ -7,7 +7,7 @@ var bindGlobalPlugin = require('combokeys/plugins/global-bind');
 var RowView = require('./RowView');
 var MapView = require('./MapView');
 var CircularView = require('./CircularView');
-
+var RestrictionEnzymeManager = require('./RestrictionEnzymeManager');
 var Clipboard = require('./Clipboard');
 import {Decorator as Cerebral} from 'cerebral-react';
 
@@ -245,8 +245,7 @@ class SequenceEditor extends React.Component {
                 <ToolBar />
 
                 <div style={{display: 'flex', overflow: 'auto'}}>
-                    {showSidebar === 'black' && <div style = {{background : 'black', width: 500}}>
-                                            </div>}
+                    {showSidebar === 'restrictionEnzymeManager' && <RestrictionEnzymeManager/>}
                     {showCircular && <CircularView 
                                           handleEditorDrag={this.handleEditorDrag.bind(this)}
                                           handleEditorDragStart={this.handleEditorDragStart.bind(this)}
