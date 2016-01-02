@@ -1,5 +1,5 @@
 var deriveData = require('baobab').monkey
-
+var computeIntervals = require('ve-sequence-utils/computeIntervals');
 var prepareRowData = require('ve-sequence-utils/prepareRowData');
 var prepareRowData2 = require('ve-sequence-utils/prepareRowData2');
 var prepareCircularViewData = require('ve-sequence-utils/prepareCircularViewData');
@@ -77,6 +77,7 @@ module.exports = {
        features: [],
        translations: [],
        parts: [],
+       circular: false
     }, 
     userEnzymeList: [
         'rsplkii',
@@ -148,6 +149,21 @@ module.exports = {
             return sequenceData.sequence ? sequenceData.sequence.length : 0;
         }
     ]),
+    // [...['features','parts',''].map(function computeIntervalTrees (argument) {
+    //     // body...
+    // })]
+    // intervalTrees: {
+    //     features: deriveData([
+    //         ['sequenceData','features'],
+    //         ['sequenceLength'],
+    //         function annotationIntervalTrees(annotations,sequenceLength) {
+    //             return computeIntervals(annotations, sequenceLength)
+    //         },
+    //         {
+    //             immutable: false
+    //         }
+    //     ]),
+    // },
     mapViewCharWidth: deriveData([
         ['mapViewDimensions',
             'width'

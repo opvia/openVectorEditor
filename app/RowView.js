@@ -6,6 +6,8 @@ var RowItem = require('./RowItem.js');
 var InfiniteScroller = require('react-variable-height-infinite-scroller');
 import {Decorator as Cerebral} from 'cerebral-react';
 
+import styles from './row-view.css';
+
 @Cerebral({
     rowViewDimensions: ['rowViewDimensions'],
     rowData: ['rowData'],
@@ -96,6 +98,20 @@ class RowView extends React.Component {
         });
     }
 
+    resize() {
+        if (this.refs.rowView) {
+            this.props.signals.resizeRowView({
+                rootWidth: this.refs.rowView.clientWidth,
+                rootHeight: this.refs.rowView.clientHeight
+            });
+        }
+    }
+
+    componentDidMount() {
+        this.resize();
+        window.addEventListener('resize', this.resize.bind(this));
+    }
+
     render() {
         var self = this;
         function renderRows(rowNumber) {
@@ -152,8 +168,7 @@ class RowView extends React.Component {
             >
               <div
                 ref="rowView"
-                className="rowView"
-                style={rowViewStyle}
+                className={styles.rowView}
                 onClick={(event) => {
                     this.getNearestCursorPositionToMouseEvent(event, self.props.signals.editorClicked)}   
                 }

@@ -12,6 +12,8 @@ import { Decorator as Cerebral } from 'cerebral-react';
 import { propTypes } from './react-props-decorators.js'; //tnrtodo: update this once the actual npm module updates its dependencies
 var Draggable = require('react-draggable');
 
+import styles from './circular-view.css';
+
 @Cerebral({
     circularViewDimensions: ['circularViewDimensions'],
     circularViewData: ['circularViewData'],
@@ -65,13 +67,27 @@ class CircularView extends React.Component {
         var angle = Math.atan2(clickY, clickX) + Math.PI/2
         if (angle < 0) angle += Math.PI * 2
         console.log('angle: ' + JSON.stringify(angle,null,4));
-        var caretGrabbed = event.target.className === "cursor"
+        var caretGrabbed = event.target.className && event.target.className.animVal === "cursor"
         var nearestBP = Math.floor(angle / Math.PI / 2 * sequenceLength)
         callback({
             shiftHeld: event.shiftKey,
             nearestBP, 
             caretGrabbed //tnr: come back and fix this
         })
+    }
+
+    resize() {
+        if (this.refs.circularView) {
+            this.props.signals.resizeCircularView({
+                rootWidth: this.refs.circularView.clientWidth,
+                rootHeight: this.refs.circularView.clientHeight
+            });
+        }
+    }
+
+    componentDidMount() {
+        this.resize();
+        window.addEventListener('resize', this.resize.bind(this));
     }
 
     render() {
@@ -214,18 +230,7 @@ class CircularView extends React.Component {
                 />
             )
         }
-        var circViewStyle = assign({}, circularViewDimensions, {
-            height: circularViewDimensions.height,
-            // overflow: 'scroll',
-        })
-        var maxDistance = circularViewDimensions.height
-        if (circularViewDimensions.height < circularViewDimensions.width) {
-            maxDistance = circularViewDimensions.width
-        }
-        var scale = ''
-        if (currentRadius > maxDistance) {
-            scale = ``
-        }
+
         return (
             <Draggable
             bounds={{top: 0, left: 0, right: 0, bottom: 0}}
@@ -238,20 +243,17 @@ class CircularView extends React.Component {
             onStop={signals.editorDragStopped}
             
             >
-                <div style={ circViewStyle }>
                   <svg
                   onClick={(event) => {
                     this.getNearestCursorPositionToMouseEvent(event, sequenceLength, signals.editorClicked)}   
                 }
                     width={ circularViewDimensions.width }
-                    height={ circularViewDimensions.height }>
-                    <g 
-                    ref='circularView'
-                    transform={ `scale(${maxDistance/currentRadius/2},${maxDistance/currentRadius/2}) translate(${currentRadius},${currentRadius}) ` }>
+                    height={ circularViewDimensions.height }
+                    ref="circularView"
+                    className={styles.circularView}
+                    viewBox={ `-${currentRadius} -${currentRadius} ${currentRadius*2} ${currentRadius*2}` }>
                       { annotationsSvgs }
-                    </g>
                   </svg>
-                </div>
             </Draggable>
             );
     }
@@ -269,7 +271,8 @@ function Caret ({caretPosition, sequenceLength, innerRadius, outerRadius}) {
           eAngle={ endAngle }
           height={ 0 }>
           <line
-            style={ { className:"cursor", opacity: 9} }//tnr: the classname needs to be cursor here!
+            className="cursor"
+            style={ { opacity: 9, cursor: "ew-resize",} }//tnr: the classname needs to be cursor here!
             x1={0}
             y1={-innerRadius}
             x2={0}

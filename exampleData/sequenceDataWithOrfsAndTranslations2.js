@@ -66,7 +66,7 @@ var sequenceData = {
     "description": "",
     "user_id": "54220bb6f54aa7432861e7dd",
     "translations": generateAnnotations(5, seqLen),
-    "features": generateAnnotations(10, seqLen),
+    "features": generateAnnotations(1000, seqLen),
     "parts": generateAnnotations(10, seqLen),
     "extraLines": [],
     "__v": 4
