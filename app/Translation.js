@@ -13,7 +13,6 @@ var Translation = React.createClass({
         widthInBps: React.PropTypes.number.isRequired,
         charWidth: React.PropTypes.number.isRequired,
         height: React.PropTypes.number.isRequired,
-        rangeType: React.PropTypes.string.isRequired,
         color: React.PropTypes.string.isRequired,
         name: React.PropTypes.string.isRequired,
         forward: React.PropTypes.bool.isRequired,

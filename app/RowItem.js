@@ -70,13 +70,7 @@ class RowItem extends React.Component {
                 {showTranslations &&
                   <TranslationContainer
                     row={row}
-                    signals={signals}
-                    annotationRanges={row.translations}
-                    charWidth={charWidth}
-                    annotationHeight={annotationHeight}
-                    bpsPerRow={bpsPerRow}
-                    sequenceLength={sequenceLength}
-                    spaceBetweenAnnotations={spaceBetweenAnnotations}/>
+                    />
                 }
 
                 {showCutsites &&

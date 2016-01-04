@@ -38,7 +38,7 @@ module.exports = {
     showRow: true,
     showSequence: true,
     showSidebar: true,
-    showTranslations: false,
+    showTranslations: true,
     spaceBetweenAnnotations: 3,
     tickSpacing: 10,
     topSpacerHeight: 0,
@@ -131,18 +131,18 @@ module.exports = {
             return cutsitesArray;
         }
     ]),
-    // translationsWithAminoAcids: deriveData([
-    //     ['sequenceData', 'translations'],
-    //     ['sequenceData', 'sequence'],
-    //     function getTranslationsWithAminoAcids(translations, sequence) {
-    //         return translations.map(function(translation) {
-    //             var translationWithAminoAcids = assign({}, translation);
-    //             var subseq = getSequenceWithinRange(translation, sequence);
-    //             translationWithAminoAcids.aminoAcids = getAminoAcidDataForEachBaseOfDna(subseq, translation.forward);
-    //             return translationWithAminoAcids;
-    //         });
-    //     }
-    // ]),
+    translationsWithAminoAcids: deriveData([
+        ['sequenceData', 'translations'],
+        ['sequenceData', 'sequence'],
+        function getTranslationsWithAminoAcids(translations, sequence) {
+            return translations.map(function(translation) {
+                var translationWithAminoAcids = assign({}, translation);
+                var subseq = getSequenceWithinRange(translation, sequence);
+                translationWithAminoAcids.aminoAcids = getAminoAcidDataForEachBaseOfDna(subseq, translation.forward);
+                return translationWithAminoAcids;
+            });
+        }
+    ]),
     sequenceLength: deriveData([
         ['sequenceData'],
         function(sequenceData) {
@@ -197,21 +197,21 @@ module.exports = {
         ['minimumOrfSize'],
         findOrfsInPlasmid
     ]),
-    combinedSequenceData: deriveData([ //holds usual sequence data, plus orfs, plus parts..
-        ['sequenceData'],
-        ['orfData'],
-        ['translationsWithAminoAcids'],
-        ['cutsites'],
-        function(sequenceData, orfData, translations, cutsites) {
-            return assign({}, sequenceData, {
-                orfs: orfData,
-                translations: translations,
-                cutsites: cutsites
-            });
-        }
-    ]),
+    // combinedSequenceData: deriveData([ //holds usual sequence data, plus orfs, plus parts..
+    //     ['sequenceData'],
+    //     ['orfData'],
+    //     ['translationsWithAminoAcids'],
+    //     ['cutsites'],
+    //     function(sequenceData, orfData, translations, cutsites) {
+    //         return assign({}, sequenceData, {
+    //             orfs: orfData,
+    //             translations: translations,
+    //             cutsites: cutsites
+    //         });
+    //     }
+    // ]),
     rowData: deriveData([
-        ['combinedSequenceData'],
+        ['sequenceData','sequence'],
         ['bpsPerRow'],
         function(sequenceData, bpsPerRow) {
             return prepareRowData(sequenceData, bpsPerRow);
@@ -224,19 +224,19 @@ module.exports = {
     //         return prepareRowData2(sequenceData, sequenceLength);
     //     }
     // ]),
-    mapViewRowData: deriveData([
-        ['combinedSequenceData'],
-        ['sequenceLength'],
-        function(sequenceData, sequenceLength) {
-            return prepareRowData(sequenceData, sequenceLength);
-        }
-    ]),
-    circularViewData: deriveData([
-        ['combinedSequenceData'],
-        function(combinedSequenceData, ) {
-            return prepareCircularViewData(combinedSequenceData);
-        }
-    ]),
+    // mapViewRowData: deriveData([
+    //     ['combinedSequenceData'],
+    //     ['sequenceLength'],
+    //     function(sequenceData, sequenceLength) {
+    //         return prepareRowData(sequenceData, sequenceLength);
+    //     }
+    // ]),
+    // circularViewData: deriveData([
+    //     ['combinedSequenceData'],
+    //     function(combinedSequenceData, ) {
+    //         return prepareCircularViewData(combinedSequenceData);
+    //     }
+    // ]),
     circularAndLinearTickSpacing: deriveData([
         ['sequenceLength'],
         function(sequenceLength, ) {

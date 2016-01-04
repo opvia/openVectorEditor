@@ -40,7 +40,6 @@ import styles from './sequence-editor.css';
     caretPosition: PropTypes.number.isRequired,
     sequenceData: PropTypes.object.isRequired,
     selectionLayer: PropTypes.object.isRequired,
-    clipboardData: PropTypes.object.isRequired,
     showCircular: PropTypes.bool.isRequired,
     showLinear: PropTypes.bool.isRequired,
     showRow: PropTypes.bool.isRequired

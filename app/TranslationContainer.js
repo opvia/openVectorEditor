@@ -6,36 +6,72 @@ const AnnotationPositioner = require('./AnnotationPositioner');
 const Translation = require('./Translation');
 const getXStartAndWidthOfRowAnnotation = require('./getXStartAndWidthOfRowAnnotation');
 
-const PureRenderMixin = require('react-addons-pure-render-mixin');
 
-const TranslationContainer = React.createClass({
-    mixins: [PureRenderMixin],
-    propTypes: {
-        annotationRanges: PropTypes.arrayOf(PropTypes.shape({
-            start: PropTypes.number.isRequired,
-            end: PropTypes.number.isRequired,
-            yOffset: PropTypes.number.isRequired,
-            annotation: PropTypes.shape({
-                start: PropTypes.number.isRequired,
-                end: PropTypes.number.isRequired,
-                forward: PropTypes.bool.isRequired,
-                id: PropTypes.string.isRequired
-            })
-        })),
-        charWidth: PropTypes.number.isRequired,
-        bpsPerRow: PropTypes.number.isRequired,
-        annotationHeight: PropTypes.number.isRequired,
-        spaceBetweenAnnotations: PropTypes.number.isRequired,
-        sequenceLength: PropTypes.number.isRequired,
-        signals: PropTypes.object.isRequired
-    },
+var checkIfNonCircularRangesOverlap = require('ve-range-utils/checkIfNonCircularRangesOverlap');
+var getOverlapOfNonCircularRanges = require('ve-range-utils/getOverlapOfNonCircularRanges');
+
+var annotationIntervalTrees = require('./cerebral/computed/annotationIntervalTrees');
+import {Decorator as Cerebral} from 'cerebral-react';
+var getIntervalTree = annotationIntervalTrees(['translationsWithAminoAcids']);
+@Cerebral({
+    rowViewDimensions: ['rowViewDimensions'],
+    charWidth: ['charWidth'],
+    annotationHeight: ['annotationHeight'],
+    spaceBetweenAnnotations: ['spaceBetweenAnnotations'],
+    showFeatures: ['showFeatures'],
+    showTranslations: ['showTranslations'],
+    sequenceLength: ['sequenceLength'],
+    bpsPerRow: ['bpsPerRow'],
+    //computed data:
+    annotationIntervalTree: getIntervalTree,
+})
+class TranslationContainer extends React.Component {
+    // propTypes: {
+    //     annotationRanges: PropTypes.arrayOf(PropTypes.shape({
+    //         start: PropTypes.number.isRequired,
+    //         end: PropTypes.number.isRequired,
+    //         yOffset: PropTypes.number.isRequired,
+    //         annotation: PropTypes.shape({
+    //             start: PropTypes.number.isRequired,
+    //             end: PropTypes.number.isRequired,
+    //             forward: PropTypes.bool.isRequired,
+    //             id: PropTypes.string.isRequired
+    //         })
+    //     })),
+    //     charWidth: PropTypes.number.isRequired,
+    //     bpsPerRow: PropTypes.number.isRequired,
+    //     annotationHeight: PropTypes.number.isRequired,
+    //     spaceBetweenAnnotations: PropTypes.number.isRequired,
+    //     sequenceLength: PropTypes.number.isRequired,
+    //     signals: PropTypes.object.isRequired
+    // },
     render() {
-        var {signals, annotationRanges, bpsPerRow, charWidth, annotationHeight, spaceBetweenAnnotations, sequenceLength} = this.props;
+        var {signals, row, annotationIntervalTree, bpsPerRow, charWidth, annotationHeight, spaceBetweenAnnotations, sequenceLength} = this.props;
+        var yOffsets = [[]];
+        var annotationRanges = annotationIntervalTree.search(row.start, row.end).map(function (interval) {
+            var annotationRange = getOverlapOfNonCircularRanges(row, interval);
+            var openYOffsetFound = yOffsets.some(function (rangesAlreadyAddedToYOffset, index) {
+                var yOffsetBlocked = rangesAlreadyAddedToYOffset.some(function (alreadyAddedRange) {
+                    return (checkIfNonCircularRangesOverlap(alreadyAddedRange, annotationRange));
+                })
+                if (!yOffsetBlocked) {
+                    annotationRange.yOffset = index
+                    rangesAlreadyAddedToYOffset.push(annotationRange)
+                    return true
+                }
+            })
+            if (!openYOffsetFound) {
+                annotationRange.yOffset = yOffsets.length;
+            }
+            annotationRange.annotation = interval.object;
+            return annotationRange;
+        })
+
         if (annotationRanges.length === 0) {
             return null;
         }
         let maxAnnotationYOffset = 0;
-        const annotationsSVG = [];
+        let annotationsSVG = [];
         annotationRanges.forEach(function(annotationRange) {
             if (annotationRange.yOffset > maxAnnotationYOffset) { //tnrtodo: consider abstracting out the code to calculate the necessary height for the annotation container
                 maxAnnotationYOffset = annotationRange.yOffset;
@@ -76,8 +112,6 @@ const TranslationContainer = React.createClass({
                 {annotationsSVG}
               </AnnotationContainerHolder>
           );
-
-          
     }
-});
+}
 module.exports = TranslationContainer;

@@ -1,7 +1,3 @@
-var checkIfNonCircularRangesOverlap = require('ve-range-utils/checkIfNonCircularRangesOverlap');
-var getOverlapOfNonCircularRanges = require('ve-range-utils/getOverlapOfNonCircularRanges');
-import {Decorator as Cerebral} from 'cerebral-react';
-var annotationIntervalTrees = require('./cerebral/computed/annotationIntervalTrees');
 var StyleFeature = require('./StyleFeature');
 import React, { PropTypes } from 'react';
 let getXStartAndWidthOfRowAnnotation = require('./getXStartAndWidthOfRowAnnotation');
@@ -10,8 +6,12 @@ let LinearFeature = require('./LinearFeature');
 
 let AnnotationContainerHolder = require('./AnnotationContainerHolder');
 let AnnotationPositioner = require('./AnnotationPositioner');
-var getFeatIntervalTree = annotationIntervalTrees('features');
 
+var checkIfNonCircularRangesOverlap = require('ve-range-utils/checkIfNonCircularRangesOverlap');
+var getOverlapOfNonCircularRanges = require('ve-range-utils/getOverlapOfNonCircularRanges');
+var annotationIntervalTrees = require('./cerebral/computed/annotationIntervalTrees');
+import {Decorator as Cerebral} from 'cerebral-react';
+var getIntervalTree = annotationIntervalTrees(['sequenceData','features']);
 @Cerebral({
     rowViewDimensions: ['rowViewDimensions'],
     charWidth: ['charWidth'],
@@ -22,7 +22,7 @@ var getFeatIntervalTree = annotationIntervalTrees('features');
     sequenceLength: ['sequenceLength'],
     bpsPerRow: ['bpsPerRow'],
     //computed data:
-    annotationIntervalTree: getFeatIntervalTree,
+    annotationIntervalTree: getIntervalTree,
 })
 class FeatureContainer extends React.Component {
     // propTypes: {

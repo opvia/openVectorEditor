@@ -1,7 +1,7 @@
 var computeIntervals = require('ve-sequence-utils/computeIntervals');
-module.exports = function annotationIntervalTrees (annotationType) {
+module.exports = function annotationIntervalTrees (pathToAnnotation) {
     return function(get) {
-        var annotations = get(['sequenceData', annotationType]);
+        var annotations = get(pathToAnnotation);
         var sequenceLength = get(['sequenceLength']);
         return computeIntervals(annotations, sequenceLength)
     }

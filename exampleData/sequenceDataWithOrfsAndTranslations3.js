@@ -34,9 +34,9 @@ var sequenceData = {
             "name": "Operator I2 and I1",
             "type": "protein_bind",
             "id": "55a4a061f0c5b500012a8qqqq4",
-            "start": 0,
-            "end": 321,
-            "strand": -1,
+            "start": 40,
+            "end": 21,
+            "strand": 1,
             "notes": []
         },
         {
