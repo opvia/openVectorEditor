@@ -141,7 +141,6 @@ class SequenceEditor extends React.Component {
             showRow,
             showSidebar,
         } = this.props;
-
         return (
             <div ref="sequenceEditor" className={styles.app}>
                 <Clipboard
@@ -156,6 +155,7 @@ class SequenceEditor extends React.Component {
 
                 <div className={styles.content}>
                     <div className={styles.sideBarSlot} style={(showSidebar) ? {} : {display: 'none'}}>
+                        {showSidebar === 'restrictionEnzymeManager' && <RestrictionEnzymeManager />}
                     </div>
 
                     <div className={styles.circularViewSlot} style={(showCircular) ? {} : {display: 'none'}}>
