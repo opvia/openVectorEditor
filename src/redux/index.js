@@ -1,7 +1,7 @@
 import { routeReducer as router } from 'redux-simple-router'
 import {reducer as form} from 'redux-form'
 import {reducer as VectorEditor} from '../../VectorEditor';
-import combineReducers from 'redux/es/combineReducers';
+import combineReducers from 'redux/lib/combineReducers';
 
 export default function (state, action) {
   // //console.log('state: ', state);

@@ -25,7 +25,7 @@ class VectorInteractionWrapper extends React.Component {
             sequenceData, 
             namespace, 
         } = this.props
-        //do this in two steps to determine 
+        //do this in two steps to determine the props to pass
         var {
             children, 
             key,
