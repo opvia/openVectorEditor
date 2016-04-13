@@ -1,4 +1,4 @@
-var assign = require('lodash/object/assign');
+var assign = require('lodash/assign');
 var filterSequenceString = require('ve-sequence-utils/filterSequenceString');
 
 export default function pasteSequenceString({input, state, output}) {

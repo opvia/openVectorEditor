@@ -1,4 +1,4 @@
-var assign = require('lodash/object/assign');
+var assign = require('lodash/assign');
 var getOverlapsOfPotentiallyCircularRanges = require('ve-range-utils/getOverlapsOfPotentiallyCircularRanges');
 var collapseOverlapsGeneratedFromRangeComparisonIfPossible = require('ve-range-utils/collapseOverlapsGeneratedFromRangeComparisonIfPossible');
 var getSubstringByRange = require('get-substring-by-range');

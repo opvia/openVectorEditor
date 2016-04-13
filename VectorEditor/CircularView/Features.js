@@ -9,7 +9,7 @@ import getYOffset from './getYOffset';
 import lruMemoize from 'lru-memoize';
 import PositionAnnotationOnCircle from './PositionAnnotationOnCircle';
 import React, { PropTypes } from 'react';
-import noop from 'lodash/utility/noop';
+import noop from 'lodash/noop';
 
 function Features({radius, namespace='', featureClicked=noop, features=[],annotationHeight, spaceBetweenAnnotations=2, sequenceLength}) {
     //console.log('RENDERING FEATURES');

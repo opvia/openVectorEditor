@@ -2,7 +2,6 @@ var autoprefixer = require('autoprefixer');
 var precss = require('precss');
 var path = require('path');
 var webpack = require('webpack');
-var lost = require('lost');
 
 
 module.exports = {
@@ -24,7 +23,7 @@ module.exports = {
     publicPath: '/'
   },
   postcss: function() {
-    return [autoprefixer, precss, lost];
+    return [autoprefixer, precss];
   },
   resolve: {
     // you can now require('file') instead of require('file.coffee')
@@ -34,7 +33,7 @@ module.exports = {
     loaders: [{
       test: /\.js$/,
       loaders: ['babel'],
-      include: path.join(__dirname, 'src')
+      include: [path.join(__dirname, 'src'), path.join(__dirname, 'VectorEditor')]
     }, {
       test: /\.css$/,
       loader: "style-loader!css-loader!postcss-loader"

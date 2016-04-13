@@ -2,7 +2,7 @@ import Controller from 'cerebral';
 import Model from 'cerebral-model-baobab';
 import signals from './signals';
 import defaultState from './state';
-import assign from 'lodash/object/assign'
+import assign from 'lodash/assign'
 var tidyUpSequenceData = require('ve-sequence-utils/tidyUpSequenceData');
 
 

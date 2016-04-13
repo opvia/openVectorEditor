@@ -1,7 +1,8 @@
 import arrayToObjWithIds from './arrayToObjWithIds';
 // tnrtodo: figure out where to insert this validation exactly..
 var bsonObjectid = require('bson-objectid');
-var assign = require('lodash/object/assign');
+
+var assign = require('lodash/assign');
 var randomColor = require('randomcolor');
 var areNonNegativeIntegers = require('validate.io-nonnegative-integer-array');
 import {userDefinedTypes, getSingular} from '../annotationTypes';

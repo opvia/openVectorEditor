@@ -9,7 +9,7 @@ import AddBoxIcon from 'material-ui/lib/svg-icons/content/add-box';
 import IndeterminateCheckBoxIcon from 'material-ui/lib/svg-icons/toggle/indeterminate-check-box';
 import IconButton from 'material-ui/lib/icon-button';
 
-var assign = require('lodash/object/assign');
+var assign = require('lodash/assign');
 
 @Cerebral({})
 export default class FeatureForm extends React.Component {

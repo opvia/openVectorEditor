@@ -4,7 +4,7 @@ import getRangeAngles from './getRangeAnglesSpecial';
 import lruMemoize from 'lru-memoize';
 import PositionAnnotationOnCircle from './PositionAnnotationOnCircle';
 import React, { PropTypes } from 'react';
-import each from 'lodash/collection/each';
+import each from 'lodash/each';
 function Cutsites({radius, namespace, cutsiteClicked, cutsites, cutsiteHeight = 20, cutsiteWidth=2, annotationHeight, sequenceLength}) {
   //console.log('RENDERING CUTSITES');
   var svgGroup = []

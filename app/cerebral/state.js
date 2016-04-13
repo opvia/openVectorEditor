@@ -3,7 +3,7 @@ var prepareRowData = require('ve-sequence-utils/prepareRowData');
 var prepareCircularViewData = require('ve-sequence-utils/prepareCircularViewData');
 var findOrfsInPlasmid = require('ve-sequence-utils/findOrfsInPlasmid');
 
-var assign = require('lodash/object/assign');
+var assign = require('lodash/assign');
 var getSequenceWithinRange = require('ve-range-utils/getSequenceWithinRange');
 var getAminoAcidDataForEachBaseOfDna = require('ve-sequence-utils/getAminoAcidDataForEachBaseOfDna');
 var getCutsitesFromSequence = require('ve-sequence-utils/getCutsitesFromSequence');

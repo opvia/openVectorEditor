@@ -5,9 +5,7 @@ var webpack = require('webpack');
 var devConfig = require('./webpack.config.dev');
 // var connectToDB = require('./server/connectToDB');
 //var bodyParser = require('body-parser');
-var forceSSL = require('force-ssl');
 var bodyParser = require('body-parser');
-var basicAuth = require('basic-auth');
 var http = require('http');
 var https = require('https');
 
@@ -21,7 +19,7 @@ var app = express();
 
 
 
-var routes = require('./server/routes/index');
+// var routes = require('./server/routes/index');
 
 var app = express();
 
@@ -36,9 +34,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //set up routes
-app.use('/api', routes);
+// app.use('/api', routes);
 
-app.config = JSON.parse(fs.readFileSync('./server-config.json', 'utf8'));
+// app.config = JSON.parse(fs.readFileSync('./server-config.json', 'utf8'));
 
 //connect to the db, then start the server
 // connectToDB(app,startServer);
@@ -84,16 +82,16 @@ function startServer() {
     secureServer.listen(3443,function(){
       console.log("Listening port 3443");
     });
-    server.listen(3005,function(){
-      console.log("Listening port 3005");
+    server.listen(3007,function(){
+      console.log("Listening port 3007");
     });
      
   }
   catch(e){
     //console.log(e);
-    console.log("SSL keys not available, starting in port 3005");
-    app.listen(3005,function(){
-      console.log('Dev-server listening at http://localhost:3005');
+    console.log("SSL keys not available, starting in port 3007");
+    app.listen(3007,function(){
+      console.log('Dev-server listening at http://localhost:3007');
     });
   }
 }

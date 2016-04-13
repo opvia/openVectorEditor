@@ -8,7 +8,7 @@ import CircularFeature from './CircularFeature';
 import StyleFeature from './StyleFeature';
 import Draggable from 'react-draggable';
 
-import assign from 'lodash/object/assign';
+import assign from 'lodash/assign';
 import calculateTickMarkPositionsForGivenRange from './calculateTickMarkPositionsForGivenRange';
 import getRangeAngles from 've-range-utils/getRangeAngles';
 

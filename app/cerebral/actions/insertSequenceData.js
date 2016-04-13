@@ -1,4 +1,4 @@
-var assign = require('lodash/object/assign');
+var assign = require('lodash/assign');
 var insertSequenceDataAtPosition = require('ve-sequence-utils/insertSequenceDataAtPosition');
 var ac = require('ve-api-check');
 var setSelectionLayer = require('./setSelectionLayer');

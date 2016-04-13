@@ -1,6 +1,6 @@
 // upload a copy of the current plasmid in genbank or sbol format to ice
 import request from 'superagent/lib/client';
-import assign from 'lodash/object/assign';
+import assign from 'lodash/assign';
 
 var query = location.search;
 var cookie = document.cookie;

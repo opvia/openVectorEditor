@@ -1,62 +1,132 @@
-import sequenceSelector from './selectors/sequenceSelector';
-import circularSelector from './selectors/circularSelector';
-import enzymeList from './enzymeList.json';
-import cleanSequenceData from './utils/cleanSequenceData';
-import deepEqual from 'deep-equal';
-import reducer, {actions} from './redux';
-import selectors from './selectors';
-import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
-import VectorInteractionWrapper from './VectorInteractionWrapper';
+import ReactDOM from 'react-dom'
+import React, { PropTypes } from 'react'
+import { useRouterHistory, Router, Route, IndexRoute, Redirect } from 'react-router'
+import { createHistory } from 'history'
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import "babel-polyfill";
+import { Provider } from 'react-redux'
+// import materialCustomTheme from '../styles/materialCustomTheme';
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import { applyMiddleware, compose, createStore } from 'redux'
+import { syncHistory } from 'redux-simple-router'
+import thunk from 'redux-thunk'
+import { persistState } from 'redux-devtools';
+import rootReducer from './redux'
+import App from './containers/App';
 
-var oldProps
-function mapDispatchToActions(dispatch, props) {
-    var {
-        children, actionOverrides, ...realProps
-    } = props
-    var newActions = actions;
-    if (actionOverrides) {
-        newActions = props.actionOverrides(actions)
-    }
-    //only bind the actions one time to prevent unecessary rendering 
-    var boundActions = bindActionCreators(newActions, dispatch)
-    // boundActions = bindActionCreators(actions, dispatch)
-
+var routes = <Route path='/' component={App}>
     
-    if (!deepEqual(realProps, oldProps)) {
-        setTimeout(function() {
-            var cleanedRealProps = {
-                ...realProps,
-                sequenceData: cleanSequenceData(realProps.sequenceData, {logMessages: true})
-            }
-            //this is inside a setTimeout because we don't want to set state during a render cycle
-            dispatch(actions.vectorEditorInitialize(cleanedRealProps, props.namespace))
-        })
-        oldProps = realProps
-    }
-    return boundActions
+  </Route>
+
+function getDebugSessionKey() {
+  // You can write custom logic here!
+  // By default we try to read the key from ?debug_session=<key> in the address bar
+  const matches = window.location.href.match(/[?&]debug_session=([^&]+)\b/);
+  return (matches && matches.length > 0) ? matches[1] : null;
 }
- 
-var Component = connect(function(state, props) {
-        var {VectorEditor} = state
-        //if the namespaced state is empty (which it will be on the very first render before it's been initialized)
-        //then use the fake blankEditor data as a substitute
-        var editorState = VectorEditor[props.namespace] || VectorEditor.blankEditor
-        var cutsites = selectors.cutsitesSelector(sequenceSelector(editorState), circularSelector(editorState), props.enzymeList || enzymeList)
-        
-        //console.log('UPDATED PROPS');
-        return {
-            ...editorState,
-            cutsites: cutsites.cutsitesArray,
+
+function withDevTools (middleware) {
+  const devTools = window.devToolsExtension
+    ? window.devToolsExtension()
+    : require('./containers/DevTools').instrument()
+  return compose(middleware, devTools, persistState(getDebugSessionKey()))
+}
+
+
+function configureStore ({ initialState = {}, history }) {
+  // Sync with router via history instance (main.js)
+  const routerMiddleware = syncHistory(history)
+
+  // Compose final middleware and use devtools in debug environment
+  let middleware = applyMiddleware(thunk, routerMiddleware)
+  if (process.env.NODE_ENV !== 'production') middleware = withDevTools(middleware)
+
+  // Create final store and subscribe router in debug env ie. for devtools
+  const store = middleware(createStore)(rootReducer, initialState)
+  if (process.env.NODE_ENV !== 'production') routerMiddleware.listenForReplays(store, ({ router }) => router)
+
+  if (module.hot) {
+    module.hot.accept('./redux', () => {
+      const nextRootReducer = require('./redux').default
+
+      store.replaceReducer(nextRootReducer)
+    })
+  }
+  
+  if (process.env.NODE_ENV !== 'production') window.__redux_store__ = store
+
+  return store
+}
+
+
+class Root extends React.Component {
+  static propTypes = {
+    history: PropTypes.object.isRequired,
+    routes: PropTypes.element.isRequired,
+    store: PropTypes.object.isRequired
+  };
+  
+  // getChildContext() {
+  //   return {
+  //     muiTheme: ThemeManager.getMuiTheme(materialCustomTheme),
+  //   };
+  // }
+
+
+  get content () {
+    return (
+      <Router history={this.props.history}>
+        {this.props.routes}
+      </Router>
+    )
+  }
+
+  get devTools () {
+    if (process.env.NODE_ENV !== 'production') {
+      if (false) {
+        if (!window.devToolsExtension) {
+          require('../redux/utils/createDevToolsWindow')(this.props.store)
+        } else {
+          window.devToolsExtension.open()
         }
-    },
-    mapDispatchToActions)(VectorInteractionWrapper)
-    
-
-export {
-        actions,
-        selectors,
-        reducer,
-        Component
+      } else if (!window.devToolsExtension) {
+        const DevTools = require('./containers/DevTools')
+        return <DevTools />
+      }
     }
+  }
 
+  render () {
+    return (
+      <Provider store={this.props.store}>
+        <div style={{ height: '100%' }}>
+          {this.content}
+          {this.devTools}
+        </div>
+      </Provider>
+    )
+  }
+}
+
+Root.childContextTypes = {
+    muiTheme: React.PropTypes.object,
+  };
+
+
+// Needed for onTouchTap
+// Can go away when react 1.0 release
+// Check this repo:
+// https://github.com/zilverline/react-tap-event-plugin
+injectTapEventPlugin();
+
+const historyConfig = { basename: '' }
+const history = useRouterHistory(createHistory)(historyConfig)
+
+const initialState = window.__INITIAL_STATE__
+const store = configureStore({ initialState, history })
+
+// Render the React application to the DOM
+ReactDOM.render(
+  <Root history={history} routes={routes} store={store} />,
+  document.getElementById('root')
+)

@@ -1,4 +1,4 @@
-import without from 'lodash/array/without';
+import without from 'lodash/without';
 import sequenceLengthSelector from '../selectors/sequenceLengthSelector';
 //./caretPosition.js
 import updateSelectionOrCaret from '../utils/selectionAndCaretUtils/updateSelectionOrCaret';

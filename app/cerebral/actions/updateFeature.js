@@ -1,4 +1,4 @@
-var assign = require('lodash/object/assign');
+var assign = require('lodash/assign');
 
 export default function updateFeature({ input: { feature }, state, output }) {
     var temp = [];

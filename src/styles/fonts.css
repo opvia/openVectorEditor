@@ -1,0 +1,33 @@
+@font-face {
+    font-family: 'proximaNova';
+    src: url(../../server/static/fonts/ProximaNova-Light.otf) format("opentype");
+}
+
+@font-face {
+    font-family: 'proximaNova2';
+    src: url(../../server/static/fonts/ProximaNova-Light.otf) format("opentype");
+}
+
+@font-face {
+    font-family: 'ree';
+    src: url(../../server/static/fonts/GuldScript_PersonalUseOnly.ttf) format("opentype");
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    font-family: proximaNova, Verdana, Helvetica, Sans-Serif;
+}
+
+
+/*@font-face {
+  font-family: 'proximaNovaItalic';
+  src: url(../../server/static/fonts/ProximaNova/Mark Simonson - Proxima Nova Light It.otf) format("opentype");
+  font-style: italic;
+}*/
+
+@font-face {
+    font-family: 'proximaNovaBold';
+    src: url(../../server/static/fonts/ProximaNovaSemibold.otf) format("opentype");
+    font-weight: bold;
+}

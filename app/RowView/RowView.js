@@ -3,7 +3,7 @@ import { propTypes } from '../react-props-decorators.js';
 
 import styles from './RowView.scss';
 
-import assign from 'lodash/object/assign';
+import assign from 'lodash/assign';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import RowItem from './RowItem.js';

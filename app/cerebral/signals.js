@@ -10,8 +10,8 @@ var c = {};
 reqContext.keys().forEach(function(key) {
     c[key.substring(2)] = reqContext(key)
 });
-import assign from 'lodash/object/assign'
-var each = require('lodash/collection/each');
+import assign from 'lodash/assign'
+var each = require('lodash/each');
 export default function(options) {
     a = assign({}, a, options.actions) //override any actions here!
     var signals = {

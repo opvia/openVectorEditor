@@ -1,7 +1,7 @@
 var ac = require('ve-api-check'); 
 var adjustRangeToDeletionOfAnotherRange = require('ve-range-utils/adjustRangeToDeletionOfAnotherRange');
 var tidyUpSequenceData = require('ve-sequence-utils/tidyUpSequenceData');
-var assign = require('lodash/object/assign');
+var assign = require('lodash/assign');
 var setSelectionLayer = require('./setSelectionLayer');
 
 export default function deleteSequence({state, output}) {
