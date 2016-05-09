@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { propTypes } from '../react-props-decorators.js';
 import { Decorator as Cerebral } from 'cerebral-view-react';
 
 import styles from './RowView.scss';
@@ -9,10 +8,8 @@ import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import Row from './Row.js';
 
-@Cerebral()
-@propTypes({
-    sequenceData: PropTypes.object.isRequired,
-    columnWidth: PropTypes.number
+@Cerebral({
+    selectionLayer: ['selectionLayer']
 })
 export default class RowView extends React.Component {
 
@@ -63,6 +60,7 @@ export default class RowView extends React.Component {
             let data = {};
             data.sequence = sequence.substr(i, rowLength);
             data.offset = i;
+            data.charWidth = charWidth;
             data = assign({}, sequenceData, data);
             rowData.push(data);
         }
@@ -140,7 +138,8 @@ export default class RowView extends React.Component {
 
     render() {
         var {
-            columnWidth
+            columnWidth,
+            selectionLayer
         } = this.props;
 
         var {
@@ -157,7 +156,7 @@ export default class RowView extends React.Component {
                 <div ref={'fontMeasure'} className={styles.fontMeasure}>m</div>
                 <Row ref={'rowMeasure'} sequenceData={{ sequence: '' }} className={styles.rowMeasure} />
                 {
-                    rowData.map(datum => <Row sequenceData={datum} columnWidth={columnWidth} />)
+                    rowData.map(datum => <Row sequenceData={datum} columnWidth={columnWidth} selectionLayer={selectionLayer} />)
                 }
             </div>
         );
