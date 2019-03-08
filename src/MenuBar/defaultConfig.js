@@ -85,7 +85,7 @@ export default [
   },
   {
     text: "Tools",
-    cmd: "toolsCmd",
+    cmd: "toolsMenu",
     submenu: ["restrictionEnzymesManager", "simulateDigestion"]
   }
 ];

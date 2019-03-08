@@ -66,7 +66,7 @@
     "react-router-dom": "^4.1.1",
     "react-select": "^1.0.0-rc.3",
     "react-table": "^6.6.0",
-    "teselagen-react-components": "^25.0.9",
+    "teselagen-react-components": "^25.0.10",
     "tg-client-query-builder": "^2.12.1",
     "ve-range-utils": "^2.3.0",
     "ve-sequence-utils": "^3.2.11"
@@ -117,7 +117,7 @@
     "react-transition-group": "^2.6.0",
     "redux-form": "7",
     "redux-thunk": "2.3.0",
-    "teselagen-react-components": "25.0.9",
+    "teselagen-react-components": "25.0.10",
     "tg-client-query-builder": "^2.12.2",
     "ve-range-utils": "^2.5.2",
     "ve-sequence-utils": "^3.3.31",

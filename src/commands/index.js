@@ -37,7 +37,9 @@ const fileCommandDefs = {
     handler: props => props.handleSave(),
     hotkey: "mod+s"
   },
-  toolsCmd: {
+
+  toolsMenu: {
+    // "pseudo-command" to control visibility
     handler: () => {},
     isHidden: isProtein
   },
