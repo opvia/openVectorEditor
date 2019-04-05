@@ -112,6 +112,12 @@ const fileCommandDefs = {
       });
     }
   },
+  minimumFeatureSize: {
+    name: props => {
+      return <span> Minimum Size <InputGroup></InputGroup> </span>
+    }
+  }
+// maximumFeatureSize
   featureTypesCmd: {
     name: props => {
       const total = Object.keys(

@@ -54,7 +54,7 @@ export const fullSequenceTranslationMenu = {
 };
 export default [
   // { cmd: "mapCaret" },
-  { cmd: "toggleFeatures", shouldDismissPopover: false },
+  { cmd: "toggleFeatures", shouldDismissPopover: false, submenu: ["toggleFeatures", "minimumFeatureSize", "maximumFeatureSize"] },
   {
     cmd: "featureTypesCmd"
   },
